@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # Copyright 2015 Lockheed Martin Corporation
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# 
+#
 
 '''
 laikad
@@ -75,7 +75,7 @@ class ResultEncoder(json.JSONEncoder):
                 tmpFiles[str(uid)] = sO
             res['files'] = tmpFiles
             return res
-        return json.JSONEncoder.default(self,obj)
+        return json.JSONEncoder.default(self, obj)
 
 # Variable to store configuration options from file
 CONFIGS = {}
@@ -92,11 +92,11 @@ DEFAULT_CONFIGS = {
     'async': 'False',
     'gracetimeout': '30',
     'workerpolltimeout': '300',
-    'log_result' : 'False',
-    'dev_config_path' : 'etc/framework/laikaboss.conf',
-    'sys_config_path' : '/etc/laikaboss/laikaboss.conf',
-    'laikad_dev_config_path' : 'etc/laikad/laikad.conf',
-    'laikad_sys_config_path' : '/etc/laikaboss/laikad.conf'
+    'log_result': 'False',
+    'dev_config_path': 'etc/framework/laikaboss.conf',
+    'sys_config_path': '/etc/laikaboss/laikaboss.conf',
+    'laikad_dev_config_path': 'etc/laikad/laikad.conf',
+    'laikad_sys_config_path': '/etc/laikaboss/laikad.conf'
     }
 
 def log_debug(message):
@@ -126,8 +126,8 @@ def shutdown_handler(proc, signum, frame):
 # Follows the Load Balancing Pattern for ZMQ connections
 class AsyncBroker(Process):
     '''
-    Broker process for receiving asyncronous scan requests. The requests will be
-    doled out to the worker processes. The results of the scan will not be
+    Broker process for receiving asyncronous scan requests. The requests will
+    be doled out to the worker processes. The results of the scan will not be
     returned back to the client.
     '''
 
@@ -488,7 +488,7 @@ class Worker(Process):
                 #   request          --  Object to be scanned
 
                 task = self.broker.recv_multipart()
-                
+
                 client_id = task[1]
                 if len(task) == 6:
                     request_type = task[3]
@@ -504,7 +504,7 @@ class Worker(Process):
                             jsonRequest = json.loads(zlib.decompress(request))
                         else:
                             jsonRequest = json.loads(request)
-                        
+
                         # Set default values for our request just in case some were omitted
                         if not 'buffer' in jsonRequest:
                             jsonRequest['buffer'] = ''
@@ -548,7 +548,7 @@ class Worker(Process):
 
                     else:
                         return [client_id, '', 'INVALID REQUEST']
-                     
+
                     result = ScanResult(
                         source=externalObject.externalVars.source,
                         level=externalObject.level)
@@ -977,4 +977,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
